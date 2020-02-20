@@ -4,7 +4,6 @@
     "email": "embont@gmail.com",
     "url": "http://www.fineemb.com"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "aws-sdk": "^2.492.0",
     "minimatch": "^3.0.4"

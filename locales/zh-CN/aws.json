@@ -1,0 +1,47 @@
+{
+    "aws": {
+        "label": {
+            "aws": "京东云",
+            "bucket": "储存桶",
+            "pattern": "文件类型",
+            "name": "名称",
+            "filename": "目标文件名",
+            "region": "地域",
+            "local": "本地文件路径",
+            "keyid": "AccessKeyID",
+            "secret": "Secret Access Key"
+        },
+        "placeholder": {
+            "bucket": "储存桶名称",
+            "pattern": "文件类型",
+            "name": "名称",
+            "filename": "目标文件名",
+            "region": "地域",
+            "local": "本地文件路径"
+        },
+        "tip": {
+            "config1": "<p>要获取这些凭证，请注册<a href='https://oss-console.jdcloud.com/overview'>京东云OSS储存服务</a>，然后执行以下任一操作：</p>",
+            "config2": "<ul><li>进入你的账户管理，点击<a href='https://uc.jdcloud.com/account/accesskey'>Access Key管理</a></li><li>点击创建Access Key，你将得到Access Key ID和Access Key Secret</li></ul>"
+        },
+        "status": {
+            "initializing": "初始化...",
+            "error": "错误",
+            "checking-for-changes": "正在检查更改",
+            "downloading": "下载中...",
+            "checking-credentials": "正在检查凭证",
+            "uploading": "上传中...",
+            "failed": "失败",
+            "createing-bucket": "创建储存桶..."
+        },
+        "warn": {
+            "missing-credentials": "缺少凭证,请填写相关key和ID"
+        },
+        "error": {
+            "failed-to-fetch": "failed to fetch S3 state: __err__",
+            "no-bucket-specified": "没有指定储存桶",
+            "no-filename-specified": "没有指定文件名",
+            "download-failed": "下载失败: __err__",
+            "aws-s3-error": "京东云错误: __err__"
+        }
+    }
+}

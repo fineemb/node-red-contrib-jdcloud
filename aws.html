@@ -1,0 +1,274 @@
+<!--
+ * @Author        : fineemb
+ * @Github        : https://github.com/fineemb
+ * @Description   : 
+ * @Date          : 2020-02-20 17:43:24
+ * @LastEditors   : fineemb
+ * @LastEditTime  : 2020-02-20 19:29:15
+ -->
+<!--
+  Copyright 2014 IBM Corp.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="jdcloud c_bucket">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-user"></i> <span data-i18n="aws.label.aws"></span></label>
+        <input type="text" id="node-input-aws">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-folder"></i> <span data-i18n="aws.label.bucket"></span></label>
+        <input type="text" id="node-input-bucket" data-i18n="[placeholder]aws.placeholder.bucket">
+    </div>
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-tag"></i> <span data-i18n="aws.label.region"></span></label>
+        <select type="text" id="node-input-region" style="width:72%;">
+          <option selected="selected" value="s3.cn-north-1.jdcloud-oss.com">华北-北京</option>
+          <option value="s3.cn-south-1.jdcloud-oss.com">华南-广州</option>
+          <option value="s3.cn-east-2.jdcloud-oss.com">华东-上海</option>
+          <option value="s3.cn-east-1.jdcloud-oss.com">华东-宿迁</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="aws.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]aws.placeholder.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="jdcloud c_bucket">
+    <p>京东云储存桶创建节点，msg.bucket属性定义储存桶的名称。<ul><li>1.长度必须在3-63字符之间</li> <li>2.名称仅能由小写字母、数字、中划线(-)组成</li> <li>3.名称必须以小写字母或数字开头和结尾</li></ul>
+    创建成功后会输出msg.bucket定义创建成功的储存桶的名称,失败流将会终止</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('jdcloud c_bucket',{
+        category: 'storage-input',
+        color:"#C0DEED",
+        paletteLabel: '创建储存桶',
+        defaults: {
+            aws: {type:"aws-config",required:true},
+            bucket: {required:true},
+            region: {value:"", required:true},
+            name: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "amazon.png",
+        label: function() {
+            return this.name ? this.name : "创建储存桶";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="jdcloud in">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-user"></i> <span data-i18n="aws.label.aws"></span></label>
+        <input type="text" id="node-input-aws">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-folder"></i> <span data-i18n="aws.label.bucket"></span></label>
+        <input type="text" id="node-input-bucket" data-i18n="[placeholder]aws.placeholder.bucket">
+    </div>
+    <div class="form-row node-input-filepattern">
+         <label for="node-input-filepattern"><i class="fa fa-file"></i> <span data-i18n="aws.label.pattern"></span></label>
+         <input type="text" id="node-input-filepattern" data-i18n="[placeholder]aws.placeholder.pattern">
+    </div>
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-tag"></i> <span data-i18n="aws.label.region"></span></label>
+        <select type="text" id="node-input-region" style="width:72%;">
+          <option selected="selected" value="s3.cn-north-1.jdcloud-oss.com">华北-北京</option>
+          <option value="s3.cn-south-1.jdcloud-oss.com">华南-广州</option>
+          <option value="s3.cn-east-2.jdcloud-oss.com">华东-上海</option>
+          <option value="s3.cn-east-1.jdcloud-oss.com">华东-宿迁</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="aws.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]aws.placeholder.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="jdcloud in">
+    <p>京东云OSS监听节点。监听储存桶内文件事件。默认是监听所有文件事件，但是你可以提供文件名和文件类型来限制监听的范围。事件消息由msg.payload属性中的完整文件名，msg.file中的文件名，msg.event中的事件类型组成。</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('jdcloud in',{
+        category: 'storage-input',
+        color:"#C0DEED",
+        paletteLabel: '京东云监听',
+        defaults: {
+            aws: {type:"aws-config",required:true},
+            bucket: {required:true},
+            region: {value:"", required:true},
+            filepattern: {value:""},
+            name: {value:""},
+        },
+        inputs:0,
+        outputs:1,
+        icon: "amazon.png",
+        label: function() {
+            if(this.name) return this.name
+            return this.bucket ? "京东云监听 "+this.bucket : "京东云监听";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="jdcloud">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-user"></i> <span data-i18n="aws.label.aws"></span></label>
+        <input type="text" id="node-input-aws">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-folder"></i> <span data-i18n="aws.label.bucket"></span></label>
+        <input type="text" id="node-input-bucket" data-i18n="[placeholder]aws.placeholder.bucket">
+    </div>
+    <div class="form-row node-input-filename">
+         <label for="node-input-filename"><i class="fa fa-file"></i> <span data-i18n="aws.label.filename"></span></label>
+         <input type="text" id="node-input-filename" data-i18n="[placeholder]aws.placeholder.filename">
+    </div>
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-tag"></i> <span data-i18n="aws.label.region"></span></label>
+        <select type="text" id="node-input-region" style="width:72%;">
+          <option selected="selected" value="s3.cn-north-1.jdcloud-oss.com">华北-北京</option>
+          <option value="s3.cn-south-1.jdcloud-oss.com">华南-广州</option>
+          <option value="s3.cn-east-2.jdcloud-oss.com">华东-上海</option>
+          <option value="s3.cn-east-1.jdcloud-oss.com">华东-宿迁</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="aws.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]aws.placeholder.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="jdcloud">
+    <p>京东云OSS输入节点。从京东云OSS存储桶下载内容。可以在节点储存桶属性或msg.bucket属性中指定存储桶名称。要下载的文件的名称来自节点目标文件名属性或msg.filename属性。下载的内容作为msg.payload属性发送。如果下载失败，则msg.error将包含一个错误对象。</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('jdcloud',{
+        category: 'storage-output',
+        color:"#C0DEED",
+        paletteLabel: '京东云下载',
+        defaults: {
+            aws: {type:"aws-config",required:true},
+            bucket: {required:true},
+            filename: {value:""},
+            region: {value:"", required:true},
+            name: {value:""},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "amazon.png",
+        align: "right",
+        label: function() {
+            if(this.name) return this.name
+            return this.bucket ? "京东云下载 "+this.bucket : "京东云下载";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="jdcloud out">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-user"></i> <span data-i18n="aws.label.aws"></span></label>
+        <input type="text" id="node-input-aws">
+    </div>
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-folder"></i> <span data-i18n="aws.label.bucket"></span></label>
+        <input type="text" id="node-input-bucket" data-i18n="[placeholder]aws.placeholder.bucket">
+    </div>
+    <div class="form-row node-input-filename">
+         <label for="node-input-filename"><i class="fa fa-file"></i> <span data-i18n="aws.label.filename"></span></label>
+         <input type="text" id="node-input-filename" data-i18n="[placeholder]aws.placeholder.filename">
+    </div>
+    <div class="form-row node-input-localFilename">
+         <label for="node-input-localFilename"><i class="fa fa-file"></i> <span data-i18n="aws.label.local"></span></label>
+         <input type="text" id="node-input-localFilename" data-i18n="[placeholder]aws.placeholder.local">
+    </div>
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-tag"></i> <span data-i18n="aws.label.region"></span></label>
+        <select type="text" id="node-input-region" style="width:72%;">
+          <option selected value="s3.cn-north-1.jdcloud-oss.com">华北-北京</option>
+          <option value="s3.cn-south-1.jdcloud-oss.com">华南-广州</option>
+          <option value="s3.cn-east-2.jdcloud-oss.com">华东-上海</option>
+          <option value="s3.cn-east-1.jdcloud-oss.com">华东-宿迁</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="aws.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]aws.placeholder.name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="jdcloud out">
+    <p>京东云OSS输出节点。将内容上传到京东云OSS存储桶。可以在节点存储桶属性或msg.bucket属性中指定存储桶名称。 京东云OSS上的文件名来自节点目标文件名属性或msg.filename属性。内容来自节点的本地文件路径属性，msg.localFilename属性或msg.payload属性。</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('jdcloud out',{
+        category: 'storage-output',
+        color:"#C0DEED",
+        paletteLabel: '京东云上传',
+        defaults: {
+            aws: {type:"aws-config",required:true},
+            bucket: {required:true},
+            filename: {value:""},
+            localFilename: {value:""},
+            region: {value:"", required:true},
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "amazon.png",
+        align: "right",
+        label: function() {
+            if(this.name) return this.name
+            return this.bucket ? "京东云上传 "+this.bucket : "京东云上传";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="aws-config">
+    <div class="form-row">
+        <label for="node-config-input-accesskeyid"><i class="fa fa-bookmark"></i><span data-i18n="aws.label.keyid"></span></label>
+        <input class="input-append-left" type="text" id="node-config-input-accesskeyid" style="width: 40%;" >
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-secretaccesskey"><i class="fa fa-bookmark"></i><span data-i18n="aws.label.secret"></span></label>
+        <input class="input-append-left" type="password" id="node-config-input-secretaccesskey" style="width: 40%;" >
+    </div>
+    <div class="form-tips">
+        <span data-i18n="[html]aws.tip.config1"></span>
+        <span data-i18n="[html]aws.tip.config2"></span>
+    </div>
+</script>
+
+<script type="text/javascript">
+(function() {
+    RED.nodes.registerType('aws-config',{
+        category: 'config',
+        paletteLabel: '京东云',
+        defaults: { },
+        credentials: {
+            accesskeyid: {type:"text",required:true},
+            secretaccesskey: {type: "password",required:true},
+        },
+        label: function() {
+            return this.accesskeyid ? "京东云OSS "+this.accesskeyid : "京东云OSS";
+        },
+        exportable: false,
+    });
+})();
+</script>

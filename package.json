@@ -1,0 +1,31 @@
+{
+  "author": {
+    "name": "fineemb",
+    "email": "embont@gmail.com",
+    "url": "http://www.fineemb.com"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "aws-sdk": "^2.492.0",
+    "minimatch": "^3.0.4"
+  },
+  "deprecated": false,
+  "description": "京东云OSS对象存储节点",
+  "keywords": [
+    "node-red",
+    "jdcloud",
+    "oss"
+  ],
+  "license": "Apache-2.0",
+  "name": "node-red-contrib-jdcloud",
+  "node-red": {
+    "nodes": {
+      "jdcloud": "aws.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fineemb/node-red-contrib-jdcloud"
+  },
+  "version": "0.1.0"
+}
